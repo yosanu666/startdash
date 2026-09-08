@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PK1／S4 スタートダッシュ 陣中手帳</title>
+<meta name="description" content="信長の野望・真戦 PK1/S4 スタートダッシュの判断を、その場で引くための陣中手帳">
+<meta name="theme-color" content="#f4f3ea">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="陣中手帳">
+<meta name="application-name" content="陣中手帳">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@600;800&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@600;800&display=swap"></noscript>
+<style>
+:root{
+  --washi:#f4f3ea;      /* 生成り・地 */
+  --men:#eceadf;        /* 面 */
+  --dan:#e2e0d2;        /* 段 */
+  --sen:#c8ccc0;        /* 罫 */
+  --sumi:#1c2a22;       /* 墨・文字 */
+  --nezu:#5f6c62;       /* 副文字 */
+  --midori:#2c4a37;     /* 深緑・主 */
+  --shu:#9c3b2b;        /* 弁柄・避 */
+  --moegi:#2f6b44;      /* 萌黄・可 */
+  --kincha:#8a6636;     /* 金茶・締切 */
+  --beni-bg:rgba(156,59,43,.08);
+  --cha-bg:#f0e9d8;
+  --rad:3px;
+  --disp:"Shippori Mincho B1","Yu Mincho","Hiragino Mincho ProN",serif;
+  --body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+  --num:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--washi);color:var(--sumi);
+  font-family:var(--body);font-size:16.5px;line-height:1.8;
+  font-feature-settings:"palt" 1;
+  padding-bottom:calc(48px + env(safe-area-inset-bottom));
+  -webkit-tap-highlight-color:transparent;
+}
+.wrap{max-width:760px;margin:0 auto;padding:0 max(14px,env(safe-area-inset-left)) 0 max(14px,env(safe-area-inset-right))}
+b,strong{font-weight:700}
+.n{font-family:var(--num);font-weight:800;letter-spacing:.02em}
+
+/* ── 冠 ─────────────────────────── */
+.crown{padding:calc(26px + env(safe-area-inset-top)) 0 18px;border-bottom:2px solid var(--midori)}
+.eyebrow{font-family:var(--num);font-size:12px;letter-spacing:.22em;color:var(--kincha);margin:0 0 8px}
+.crown h1{
+  font-family:var(--disp);font-weight:800;font-size:clamp(26px,7vw,40px);
+  line-height:1.25;margin:0 0 4px;letter-spacing:.02em;color:var(--midori);
+}
+.crown .sub{font-family:var(--disp);font-size:15px;color:var(--nezu);margin:0}
+
+/* 二本の締切 */
+.deadlines{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0 4px}
+a{color:var(--kincha);text-decoration:underline;text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--midori);outline-offset:2px}
+.steps{list-style:none;counter-reset:s;padding:0;margin:6px 0 0}
+.steps li{counter-increment:s;position:relative;padding:0 0 8px 34px;font-size:15px;line-height:1.7}
+.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:23px;height:23px;border-radius:50%;background:var(--midori);color:#f4f3ea;font-family:var(--num);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+.dl{border:1px solid #d8caa6;border-radius:var(--rad);padding:10px 12px;background:var(--cha-bg)}
+.dl .t{font-family:var(--num);font-size:24px;font-weight:800;color:var(--kincha);line-height:1.1}
+.dl .l{font-size:14.5px;font-weight:700;margin-top:2px}
+.dl .m{font-size:13px;color:var(--nezu);line-height:1.5;margin-top:3px}
+
+/* ── 目次帯 ──────────────────────── */
+nav{position:sticky;top:0;z-index:20;background:rgba(244,243,234,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--sen)}
+.tabs{display:flex;gap:0;max-width:760px;margin:0 auto;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  flex:1 0 auto;appearance:none;background:none;border:0;border-bottom:2px solid transparent;
+  color:var(--nezu);font-family:var(--body);font-size:15px;font-weight:700;
+  padding:12px 14px;cursor:pointer;white-space:nowrap;
+}
+.tab .k{font-family:var(--num);font-size:10.5px;display:block;letter-spacing:.1em;opacity:.85}
+.tab[aria-selected="true"]{color:var(--midori);border-bottom-color:var(--midori)}
+.tab:focus-visible{outline:2px solid var(--midori);outline-offset:-2px}
+
+/* ── 章 ─────────────────────────── */
+.panel[hidden]{display:none}
+.panel{padding-top:20px;animation:fade .18s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+h2{font-family:var(--disp);font-size:20px;font-weight:800;margin:26px 0 10px;letter-spacing:.03em;color:var(--midori)}
+h2:first-child{margin-top:0}
+h3{font-size:15px;font-weight:700;color:var(--kincha);margin:18px 0 6px;letter-spacing:.06em}
+p{margin:0 0 10px}
+.note{font-size:14.5px;color:var(--nezu);line-height:1.8}
+
+/* ── 進捗バー ─────────────────────── */
+.prog{margin:2px 0 16px}
+.bar{height:8px;border-radius:99px;background:var(--dan);overflow:hidden;border:1px solid var(--sen)}
+.bar span{display:block;height:100%;width:0;background:var(--midori);transition:width .25s ease}
+.prog-meta{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+#progTxt{font-family:var(--num);font-size:13px;font-weight:800;color:var(--midori);letter-spacing:.04em}
+.reset{appearance:none;border:1px solid var(--sen);background:var(--men);color:var(--nezu);font-family:var(--body);font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:99px;cursor:pointer}
+.reset:active{background:var(--dan)}
+.reset:focus-visible{outline:2px solid var(--midori);outline-offset:2px}
+
+/* ── 時刻軸（signature） ──────────── */
+.rail{position:relative;margin:8px 0 4px;padding-left:76px}
+.rail::before{content:"";position:absolute;left:62px;top:6px;bottom:6px;width:2px;background:#cdd3c8}
+.stop{position:relative;padding:0 40px 18px 0}
+.stop .clock{
+  position:absolute;left:-76px;top:0;width:56px;text-align:right;
+  font-family:var(--num);font-size:15px;font-weight:800;color:#4a5a4e;
+}
+.stop::before{content:"";position:absolute;left:-19px;top:10px;width:11px;height:11px;border-radius:50%;background:#a6b0a4;transition:background .15s}
+.stop .act{font-weight:700;font-size:16.5px}
+.stop .how{font-size:14.5px;color:var(--nezu);line-height:1.75}
+.stop.gate::before{background:var(--kincha);box-shadow:0 0 0 4px rgba(138,102,54,.16)}
+.stop.gate .clock{color:var(--kincha)}
+.stop.gate .act{color:var(--kincha)}
+/* チェック */
+.chk{position:absolute;right:0;top:3px;width:26px;height:26px;border-radius:7px;border:2px solid var(--sen);background:var(--men);cursor:pointer;padding:0}
+.chk:focus-visible{outline:2px solid var(--midori);outline-offset:2px}
+.chk::after{content:"";position:absolute;left:7px;top:2px;width:7px;height:13px;border:solid var(--midori);border-width:0 3px 3px 0;transform:rotate(45deg) scale(0);transform-origin:center;transition:transform .12s ease}
+.chk[aria-pressed="true"]{border-color:var(--midori);background:rgba(44,74,55,.1)}
+.chk[aria-pressed="true"]::after{transform:rotate(45deg) scale(1)}
+.stop.done .act{color:var(--nezu);text-decoration:line-through;text-decoration-color:var(--sen)}
+.stop.done .how{opacity:.55}
+.stop.done::before{background:var(--midori)}
+
+/* ── 表 ─────────────────────────── */
+table{width:100%;border-collapse:collapse;margin:6px 0 14px;font-size:15px}
+th,td{border:1px solid var(--sen);padding:9px 10px;text-align:left;vertical-align:top}
+th{background:var(--dan);font-weight:700;font-size:13px;letter-spacing:.06em;color:var(--midori)}
+td .n{font-size:16px}
+.bad{color:var(--shu)}
+.good{color:var(--moegi)}
+
+/* ── 序列（狙う/避ける） ───────────── */
+.order{list-style:none;padding:0;margin:6px 0 8px;counter-reset:o}
+.order li{
+  counter-increment:o;display:flex;align-items:baseline;gap:10px;
+  padding:8px 11px;border-left:3px solid var(--moegi);background:var(--men);margin-bottom:3px;border-radius:0 var(--rad) var(--rad) 0;
+}
+.order li::before{content:counter(o);font-family:var(--num);font-size:12.5px;color:#8a968c;min-width:14px}
+.order li.avoid{border-left-color:var(--shu);background:var(--beni-bg)}
+.order li.avoid .tag{color:var(--shu)}
+.order .nm{font-weight:700;font-size:16px}
+.order .tag{margin-left:auto;font-size:12.5px;color:var(--nezu);letter-spacing:.06em;white-space:nowrap}
+.divider{display:flex;align-items:center;gap:8px;margin:10px 0;font-size:12.5px;color:var(--shu);letter-spacing:.14em;font-family:var(--num)}
+.divider::before,.divider::after{content:"";height:1px;background:var(--shu);opacity:.45;flex:1}
+
+/* ── 相性フィルタ ─────────────────── */
+.filter{border:1px solid var(--sen);border-radius:var(--rad);padding:12px;background:var(--men);margin:8px 0 14px}
+.filter .q{font-size:13.5px;color:var(--nezu);letter-spacing:.08em;margin:0 0 8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{
+  appearance:none;border:1px solid var(--sen);background:var(--washi);color:var(--sumi);
+  font-family:var(--body);font-size:14px;font-weight:700;padding:8px 13px;border-radius:99px;cursor:pointer;
+}
+.chip[aria-pressed="true"]{background:var(--midori);border-color:var(--midori);color:#f4f3ea}
+.chip:focus-visible{outline:2px solid var(--midori);outline-offset:2px}
+.verdict{margin-top:12px;font-size:14.5px;line-height:1.8;color:var(--sumi);min-height:1.7em}
+.verdict b{color:var(--shu)}
+
+/* ── 敵札 ───────────────────────── */
+.foe{border:1px solid var(--sen);border-left:4px solid #aab4a8;border-radius:0 var(--rad) var(--rad) 0;padding:10px 12px;margin-bottom:8px;background:var(--men);transition:border-color .15s,background .15s,opacity .15s}
+.foe .hd{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.foe .rk{font-family:var(--num);font-size:12.5px;color:#8a968c}
+.foe .nm{font-family:var(--disp);font-size:19px;font-weight:800;color:var(--midori)}
+.foe .ef{font-size:15.5px;margin-top:5px}
+.foe .hit{font-size:14px;color:var(--nezu);margin-top:4px;line-height:1.75}
+.foe.on{border-left-color:var(--shu);background:var(--beni-bg)}
+.foe.off{opacity:.45}
+.kw{color:var(--kincha);font-weight:700}
+
+/* ── 箱 ─────────────────────────── */
+.box{border:1px solid var(--sen);border-radius:var(--rad);padding:12px;background:var(--men);margin:8px 0 12px}
+.box.warn{border-color:var(--shu);background:var(--beni-bg)}
+.box .h{font-size:13.5px;letter-spacing:.08em;color:var(--kincha);font-weight:700;margin-bottom:5px}
+.box.warn .h{color:var(--shu)}
+ul.tight{margin:4px 0 0;padding-left:1.1em}
+ul.tight li{margin-bottom:4px}
+
+/* ── コスト梯子 ───────────────────── */
+.ladder{display:flex;align-items:stretch;gap:6px;margin:8px 0 10px;flex-wrap:wrap}
+.rung{flex:1 1 150px;border:1px solid var(--sen);border-radius:var(--rad);padding:9px 10px;background:var(--men)}
+.rung .c{font-family:var(--num);font-size:20px;font-weight:800;color:var(--kincha)}
+.rung .mem{font-size:14.5px;font-weight:700;margin-top:3px}
+.rung .sw{font-size:13px;color:var(--nezu)}
+.pin{color:var(--moegi)}
+
+footer{border-top:1px solid var(--sen);margin-top:30px;padding:16px 0;font-size:13px;color:var(--nezu);line-height:1.8}
+
+@media (max-width:520px){
+  .deadlines{grid-template-columns:1fr}
+  .rung{flex:1 1 100%}
+  .rail{padding-left:64px}
+  .rail::before{left:52px}
+  .stop .clock{left:-64px;width:46px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="crown">
+    <p class="eyebrow">PK1 / S4 — START DASH</p>
+    <h1>スタートダッシュ陣中手帳</h1>
+    <p class="sub">開拓・内政・編成の判断を、その場で引くための一枚</p>
+
+    <div class="deadlines">
+      <div class="dl">
+        <div class="t">14:00</div>
+        <div class="l">天守 6 到達</div>
+        <div class="m">落とすと国衆上納が1回のまま。資源差は復帰不能</div>
+      </div>
+      <div class="dl">
+        <div class="t">24:00</div>
+        <div class="l">倉庫 Lv8 ／ 天守 7</div>
+        <div class="m">評定リセットに合わせる。石材は14時・20時の2回で受取</div>
+      </div>
+      <div class="dl">
+        <div class="t">48h</div>
+        <div class="l">1軍へ移行</div>
+        <div class="m">天守8・演武場1・軍策所2。過ぎると戦法P返還が100%→80%</div>
+      </div>
+    </div>
+  </header>
+</div>
+
+<nav>
+  <div class="tabs" role="tablist" aria-label="章">
+    <button class="tab" role="tab" id="t1" aria-controls="p1" aria-selected="true"><span class="k">01</span>初日</button>
+    <button class="tab" role="tab" id="t2" aria-controls="p2" aria-selected="false"><span class="k">02</span>土地</button>
+    <button class="tab" role="tab" id="t3" aria-controls="p3" aria-selected="false"><span class="k">03</span>守備軍</button>
+    <button class="tab" role="tab" id="t4" aria-controls="p4" aria-selected="false"><span class="k">04</span>編成</button>
+    <button class="tab" role="tab" id="t5" aria-controls="p5" aria-selected="false"><span class="k">05</span>移行</button>
+    <button class="tab" role="tab" id="t6" aria-controls="p6" aria-selected="false"><span class="k">06</span>内政</button>
+    <button class="tab" role="tab" id="t7" aria-controls="p7" aria-selected="false"><span class="k">07</span>実績</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ══ 01 初日 ══ -->
+<section class="panel" role="tabpanel" id="p1" aria-labelledby="t1">
+  <h2>初日タイムライン</h2>
+
+  <div class="prog">
+    <div class="bar"><span id="progFill"></span></div>
+    <div class="prog-meta">
+      <span id="progTxt">0 / 8 完了</span>
+      <button id="reset" class="reset" type="button">進捗をリセット</button>
+    </div>
+  </div>
+
+  <div class="rail">
+    <div class="stop gate" data-k="d0">
+      <button class="chk" type="button" aria-pressed="false" aria-label="完了にする"></button>
+      <div class="clock">開幕直後</div>
+      <div class="act">戦法ポイントを買い切る</div>
+      <div class="how">功績商店で戦法ポイントを<b>上限まで購入</b>。前シーズンに貯めた青武将は、このタイミングで変換すると<b>2倍</b>で入る。スタダ1軍3人の主力戦法をLv10まで上げれば兵損が大幅に減る ─ 序盤で最も効く準備</div>
+    </div>
+    <div class="stop" data-k="d1">
+      <button class="chk" type="button" aria-pressed="false" aria-label="完了にする"></button>
+      <div class="clock">開幕</div>
+      <div class="act">職人解放 ─ 弁論 → 算術</div>
+      <div class="how">弁論で国衆上納の督促。算術で労力雇用・物資銅銭の消費削減。次点は武芸（中盤の一揆鎮圧）、建築・茶道は自由</div>
+    </div>
+    <div class="stop" data-k="d2">
+      <button class="chk" type="button" aria-pressed="false" aria-label="完了にする"></button>
+      <div class="clock">随時</div>
+      <div class="act">石材地を確保して徴発</div>
+      <div class="how">Lv5以上の石材地を占領。天守6・7のタイムラインはこの供給が前提</div>
+    </div>
+    <div class="stop gate" data-k="d3">
+      <button class="chk" type="button" aria-pressed="false" aria-label="完了にする"></button>
+      <div class="clock">〜14:00</div>
+      <div class="act">天守 6 到達 ／ 最優先</div>
+      <div class="how">爆倉が前提。ミッション第7章の石材報酬と評定衆の報酬を<b>受け取らずに温存</b>し、昇級直前に一括受取して倉庫上限を踏み越える。見返りは国衆上納 1回→2回 と 盟約の品の解放</div>
+    </div>
+    <div class="stop" data-k="d4">
+      <button class="chk" type="button" aria-pressed="false" aria-label="完了にする"></button>
+      <div class="clock">14:00</div>
+      <div class="act">石材 一括受取 ①</div>
+      <div class="how">天守7へ向けた調整の1回目</div>
+    </div>
+    <div class="stop" data-k="d5">
+      <button class="chk" type="button" aria-pressed="false" aria-label="完了にする"></button>
+      <div class="clock">20:00</div>
+      <div class="act">石材 一括受取 ②</div>
+      <div class="how">2回に割ることで倉庫上限を無駄なく使い切る</div>
+    </div>
+    <div class="stop gate" data-k="d6">
+      <button class="chk" type="button" aria-pressed="false" aria-label="完了にする"></button>
+      <div class="clock">〜24:00</div>
+      <div class="act">倉庫 Lv8 ／ 天守 7 到達</div>
+      <div class="how">ミッション第10章までの報酬を温存して充てる。評定リセットに間に合わせる</div>
+    </div>
+    <div class="stop" data-k="d7">
+      <button class="chk" type="button" aria-pressed="false" aria-label="完了にする"></button>
+      <div class="clock">翌日〜</div>
+      <div class="act">天守8で止める か 天守9まで押す</div>
+      <div class="how">低凸で戦力が欲しいなら天守8で止めて兵舎（軍営）。資源基盤を取るなら天守9（産出増／評定選択肢+1／盟約の品 枠+5）</div>
+    </div>
+  </div>
+
+  <div class="box">
+    <div class="h">初日だけの得</div>
+    <ul class="tight">
+      <li>初心者期間は<b>体力消費が半分</b>。この間におにぎりを使い、資源地の拡張とレベル上げを一気に進める</li>
+      <li>盟約の品は<b>徴発促進策</b>と<b>物資調達の証</b>の2種を先に作る。以降は自分の戦略に合わせて</li>
+      <li>青武将の戦法ポイント変換は<b>2倍</b>。前シーズンの貯蓄をここで使い切る</li>
+    </ul>
+  </div>
+
+  <div class="box warn">
+    <div class="h">S4はここが違う ─ 経験値巻物が使えない</div>
+    <p style="margin:0">経験値巻物の解禁は<b>7日目以降</b>。従来のように巻物でスタダ部隊から主力へ移行することができない。開始前に最終編成を決め、<b>演武場での育成</b>を前提に逆算する。巻物は2軍・3軍育成用と割り切る。</p>
+  </div>
+</section>
+
+<!-- ══ 02 土地 ══ -->
+<section class="panel" role="tabpanel" id="p2" aria-labelledby="t2" hidden>
+  <h2>挑んでよい部隊Lv</h2>
+  <table>
+    <thead><tr><th>土地</th><th>敵Lv</th><th>負ける域</th><th>安全ライン</th></tr></thead>
+    <tbody>
+      <tr><td><span class="n">Lv5</span></td><td><span class="n">27</span></td><td class="bad">部隊<span class="n">Lv14</span>以下 → 敗北 約<span class="n">45%</span></td><td class="good">部隊<span class="n">Lv17</span></td></tr>
+      <tr><td><span class="n">Lv6</span></td><td><span class="n">30</span></td><td class="bad">部隊<span class="n">Lv21</span>以下 → 敗北 約<span class="n">60%</span></td><td class="good">部隊<span class="n">Lv26</span></td></tr>
+    </tbody>
+  </table>
+  <div class="box warn">
+    <div class="h">低凸は、この数字を鵜呑みにしない</div>
+    <p style="margin:0">守備軍が強化された今シーズンに、前シーズンと同等かそれ以下の数字が安全ラインとして出ている。この目安は<b>平均より凸が進んだ部隊</b>を前提にしていると見るべき。無凸〜低凸なら、目安より上のレベルを確保してから触る。</p>
+  </div>
+
+  <h2>Lv3 土地</h2>
+  <ul class="order"><li class="avoid"><span class="nm">太田隊</span><span class="tag">回避</span></li></ul>
+  <p class="note">戦法ではなく素の能力値と通常攻撃で削ってくる。相性で避けられない類の脅威なので、編成を問わず被害が出る。</p>
+
+  <h2>Lv4 土地</h2>
+  <ul class="order">
+    <li><span class="nm">脇坂安治</span><span class="tag">楽</span></li>
+    <li><span class="nm">安藤守就</span></li>
+    <li><span class="nm">池田輝政</span></li>
+    <li><span class="nm">毛利輝元</span></li>
+    <li><span class="nm">水原親憲</span></li>
+    <li><span class="nm">武田義信</span></li>
+  </ul>
+  <div class="divider">以下 回避推奨</div>
+  <ul class="order" style="counter-reset:o 6">
+    <li class="avoid"><span class="nm">栗山善助</span><span class="tag">回避</span></li>
+    <li class="avoid"><span class="nm">稲葉重通</span><span class="tag">回避</span></li>
+  </ul>
+
+  <h2>Lv5 土地</h2>
+  <ul class="order">
+    <li><span class="nm">山内一豊</span><span class="tag">楽</span></li>
+    <li><span class="nm">仙石権兵衛</span></li>
+    <li><span class="nm">宍戸隆家</span></li>
+    <li><span class="nm">下方貞清</span></li>
+  </ul>
+  <div class="divider">以下 回避推奨</div>
+  <ul class="order" style="counter-reset:o 4">
+    <li class="avoid"><span class="nm">新発田重家</span><span class="tag">回避</span></li>
+    <li class="avoid"><span class="nm">大野治房</span><span class="tag">最凶・触るな</span></li>
+    <li class="avoid"><span class="nm">織田信清</span><span class="tag">次点</span></li>
+  </ul>
+  <div class="box warn">
+    <div class="h">この2隊だけは覚える</div>
+    <ul class="tight">
+      <li><b>大野治房隊</b>／新戦法を4つ搭載。どう組んでも何かが刺さる。相性で回避するという発想が通用しない</li>
+      <li><b>織田信清隊</b>／犬山離弦・梅雪縦横・薫兜赴義 に加えて太田牛一の安定火力。妨害と火力が噛み合っている</li>
+    </ul>
+  </div>
+  <p class="note">この序列はあくまで目安。戦法の相性次第で「ある編成には地獄、別の編成には楽勝」が頻発する。<b>出陣前に必ず偵察</b>し、次章の判定と併せて決めること。</p>
+</section>
+
+<!-- ══ 03 守備軍 ══ -->
+<section class="panel" role="tabpanel" id="p3" aria-labelledby="t3" hidden>
+  <h2>刺さるかを判定する</h2>
+  <p class="note">危険度は兵力や属性では決まらない。<b>自分の部隊構造に刺さる戦法を持っているか</b>だけで決まる。全部を避ける必要はなく、刺さる1〜2種類を外せばいい。</p>
+
+  <div class="filter">
+    <p class="q">自軍の型を選ぶ（複数可）</p>
+    <div class="chips">
+      <button class="chip" type="button" aria-pressed="false" data-f="active">能動戦法に火力を寄せた</button>
+      <button class="chip" type="button" aria-pressed="false" data-f="tetsu">鉄壁・回避で耐える</button>
+      <button class="chip" type="button" aria-pressed="false" data-f="heal1">単体回復に頼る</button>
+      <button class="chip" type="button" aria-pressed="false" data-f="focus">火力を1枠に集中</button>
+      <button class="chip" type="button" aria-pressed="false" data-f="ctrl">制御で止めにいく</button>
+    </div>
+    <p class="verdict" id="verdict">型を選ぶと、避けるべき戦法が絞り込まれる。</p>
+  </div>
+
+  <div class="foe" data-f="active">
+    <div class="hd"><span class="rk">危険度 1</span><span class="nm">犬山離弦</span></div>
+    <div class="ef">開幕から全体に <span class="kw">無策</span></div>
+    <div class="hit">刺さる ─ 能動戦法が主火力の部隊（飯富虎昌）、味方の能動発動をトリガーにする構成（前田利家系）。一番おいしい開幕数ターンを丸ごと失い、長期戦で兵損だけが膨らむ。被害が編成全体に及ぶため最上位</div>
+  </div>
+  <div class="foe" data-f="heal1">
+    <div class="hd"><span class="rk">危険度 2</span><span class="nm">五龍城忠弓</span></div>
+    <div class="ef">偶数ターン、単体に <span class="kw">回復不可</span>＋<span class="kw">潰走</span>（2ターン）</div>
+    <div class="hit">刺さる ─ お市・加藤嘉明・本多正信 のように狙った1枠を厚く戻す回復役。回復量ではなく回復先を封じられて崩れる</div>
+  </div>
+  <div class="foe" data-f="focus">
+    <div class="hd"><span class="rk">危険度 3</span><span class="nm">梅雪縦横</span></div>
+    <div class="ef">奇数ターン、単体に <span class="kw">混乱</span>＋全体に水攻</div>
+    <div class="hit">刺さる ─ 火力を1枠に集中させた部隊。積んだバフを味方に撃つ。五龍城忠弓（偶数）と両積みの守備軍に当たると毎ターン妨害を受け続ける</div>
+  </div>
+  <div class="foe" data-f="ctrl">
+    <div class="hd"><span class="rk">危険度 4</span><span class="nm">薫兜赴義</span></div>
+    <div class="ef">序盤3ターン、守備軍に <span class="kw">洞察</span>＋連撃／乱舞</div>
+    <div class="hit">刺さる ─ 制御で止めにいく編成。洞察は制御無効なので<b>気炎万丈の封撃が入らない</b>。最も欲しい序盤で空振る</div>
+  </div>
+  <div class="foe" data-f="tetsu">
+    <div class="hd"><span class="rk">危険度 5</span><span class="nm">一鉄之守</span></div>
+    <div class="ef">守備軍に <span class="kw">必中</span> を付与</div>
+    <div class="hit">刺さる ─ 北条氏康の鉄壁、本多正信系の回避。必中は回避・鉄壁を無視するため耐久が丸ごと無かったことになる。耐久役が想定外の速度で溶けたらまずこれを疑う。兵力の絶対量と回復で耐える部隊は影響を受けない</div>
+  </div>
+
+  <h2>効果 → 刺さる編成</h2>
+  <table>
+    <thead><tr><th>守備軍の効果</th><th>刺さる編成</th></tr></thead>
+    <tbody>
+      <tr><td class="bad">無策</td><td>能動戦法に火力を依存（飯富虎昌／前田利家系）</td></tr>
+      <tr><td class="bad">必中</td><td>鉄壁・回避で被弾を無効化（北条氏康系）</td></tr>
+      <tr><td class="bad">回避</td><td>回復が薄く手数で押し切る（火力3枚寄せ）</td></tr>
+      <tr><td class="bad">回復不可</td><td>回復量で押し返す持久部隊（豊臣系）</td></tr>
+    </tbody>
+  </table>
+  <p class="note">PK1で開拓が重くなった核心は、Lv5土地以降の守備軍が<b>指揮戦法と受動戦法</b>を持つようになったこと。指揮は行動制限を受けにくく、受動は条件を満たすたび勝手に出る。つまり、こちらの制御が通っても敵の効果は止まらない。</p>
+</section>
+
+<!-- ══ 04 編成 ══ -->
+<section class="panel" role="tabpanel" id="p4" aria-labelledby="t4" hidden>
+  <h2>主力 ─ 最終形からの逆算</h2>
+  <p>最終編成を先に固定し、そこから逆算してスタダ編成を決める。<b>据え置きの2枠を一度も抜かない</b>ように組めば、継承用の巻物を大きく節約できる。差し替えが発生するのは<b>中継枠（回復補助）だけ</b>。</p>
+  <p>初期コスト上限は<b>15</b>。最終編成のままでは載らないので、アタッカー2＋回復補助1で始める。</p>
+  <div class="ladder">
+    <div class="rung"><div class="c">上限 15</div><div class="mem"><span class="pin">福島正則(6)</span>＋<span class="pin">成田甲斐(6)</span>＋<span style="color:var(--shu)">加藤嘉明(3)</span></div><div class="sw">スタダ編成／中継枠は加藤</div></div>
+    <div class="rung"><div class="c">上限 19</div><div class="mem"><span class="pin">福島正則(6)</span>＋<span class="pin">成田甲斐(6)</span>＋豊臣秀吉(7)</div><div class="sw">最終編成／コスト +4</div></div>
+  </div>
+  <p class="note">入れ替えるのは 加藤嘉明(3) → 豊臣秀吉(7) の1枠だけ。コストが+4されるので、<b>天守Lv8・軍策所Lv2</b>が移行の条件になる（→ 移行タブ）。</p>
+
+  <div class="box warn">
+    <div class="h">総コスト18〜19 か 20 か ─ 先に決める</div>
+    <p style="margin:0 0 6px"><b>コスト20は軍策所Lv3の要求資源が大幅に増える。</b>重課金か、よほどスタダに慣れていないと対人戦開始までに完成しない。無・微課金は<b>総コスト18〜19</b>で組むのが現実的。</p>
+    <p class="note" style="margin:0">コスト20を狙うなら、軍策所Lv3の資源計画を先に立ててから走り出すこと。</p>
+  </div>
+
+  <div class="box">
+    <div class="h">2軍まで見るなら</div>
+    <ul class="tight">
+      <li>片方を<b>2人入替</b>想定、もう片方を<b>1人入替</b>想定で組むと移行がスムーズ</li>
+      <li>入替要員は<b>練兵場（演武場）</b>でレベリングする。ここに銀銭を無駄遣いしない</li>
+    </ul>
+  </div>
+
+  <p class="note">守備軍は開幕から全体に無策を撒き、必中で鉄壁・回避も抜いてくる。結果として、<b>戦法に頼らず通常攻撃・突撃で殴り続けられる編成</b>の価値が上がっている。</p>
+
+  <h2>自爆（削り）部隊 ─ 2部隊体制が必須</h2>
+  <p>守備軍がここまで強い以上、主力1部隊で開拓を回すと兵損が積み上がって止まる。</p>
+  <div class="box">
+    <div class="h">手順</div>
+    <ul class="tight">
+      <li><b>①</b> 2名編成の自爆部隊を先に当て、兵力を<b>約500</b>削る</li>
+      <li><b>②</b> 弱らせてから主力部隊で討伐</li>
+    </ul>
+    <div class="h" style="margin-top:10px">勘所</div>
+    <ul class="tight">
+      <li>速度全振りで<b>先制</b>を取る</li>
+      <li><b>反撃持ちの相手は狙わない</b></li>
+    </ul>
+  </div>
+
+  <h2>事件戦法 ─ 早期に交換する2枠</h2>
+  <div class="box">
+    <ul class="tight">
+      <li><b>越後先手組</b>／速度と兵力回復を供給</li>
+      <li><b>追亡逐北</b>／畏縮で指揮・受動戦法を禁止。洞察無視の報告もある</li>
+    </ul>
+    <p class="note" style="margin:8px 0 0">どちらも交換コストが安く、今シーズンの環境に噛み合う。<b>開拓が本格化する前</b>に確保しておく。</p>
+  </div>
+</section>
+
+<!-- ══ 05 移行 ══ -->
+<section class="panel" role="tabpanel" id="p5" aria-labelledby="t5" hidden>
+  <h2>48時間という締切</h2>
+  <div class="box warn">
+    <div class="h">戦法ポイントの返還率が落ちる</div>
+    <p style="margin:0">初心者保護期間中に武将から外した戦法は、<b>戦法ポイントが100%返還</b>される。<b>48時間を過ぎると80%</b>。入替はこの期間内に済ませたい。</p>
+    <p class="note" style="margin:8px 0 0">どうしても48時間を超える場合は、<b>戦法レベルを8前後で止めて</b>消費ポイントを抑えるという手もある。</p>
+    <p class="note" style="margin:8px 0 0">S4実績では、48時間以内に軍策所Lv2へ届いたのは12名中<b>1名</b>。この手順をそのまま走らせる前に実績タブを見ておくこと。</p>
+  </div>
+
+  <h2>移行の手順</h2>
+  <ol class="steps">
+    <li><b>最終編成を先に決める</b>。総コスト18〜19推奨。決めずに走ると巻物が使えないS4では詰む</li>
+    <li><b>初期上限15に収まる代替編成で開始</b>。アタッカー2＋回復補助1（例：福島6＋成田6＋加藤3）</li>
+    <li><b>48時間以内に 天守Lv8 ／ 演武場Lv1 ／ 軍策所Lv2</b>。加藤(3)→豊臣(7)でコストが+4されるため、この3つが移行の条件</li>
+    <li><b>演武場で最終武将を育成</b>。例では豊臣秀吉をLv20まで。巻物が使えない以上、ここが唯一の道</li>
+    <li><b>保護期間中に入れ替える</b>。加藤嘉明 → 豊臣秀吉。総コスト19の最終編成が完成</li>
+    <li>以降はこの1軍を中心に育成し、対人戦に備える</li>
+  </ol>
+
+  <h3>移行時の目安レベル</h3>
+  <table>
+    <thead><tr><th>枠</th><th>武将（例）</th><th>目安</th></tr></thead>
+    <tbody>
+      <tr><td>新規投入</td><td>豊臣秀吉</td><td class="good">Lv<span class="n">20</span></td></tr>
+      <tr><td>据え置き</td><td>福島正則</td><td class="good">Lv<span class="n">33</span> 前後</td></tr>
+      <tr><td>据え置き</td><td>成田甲斐</td><td class="good">Lv<span class="n">33</span> 前後</td></tr>
+    </tbody>
+  </table>
+  <p class="note">土地の取得状況と育成ペースで前後する。あくまで一つの目安。</p>
+
+  <div class="box">
+    <div class="h">演武場を使わない別解</div>
+    <p style="margin:0">「豊臣 ＋ コスト5（十河・小島、里見のコスト4など）＋ コスト3」をスタダ2軍として組み、パワーレベリングする方法もある。<b>無・微課金には推奨度が低い</b>。</p>
+  </div>
+
+  <h2>Lv7 関攻城 ─ 逆算して判断する</h2>
+  <div class="box warn">
+    <div class="h">平均 Lv30 が最低ライン</div>
+    <p style="margin:0 0 6px">関攻城が<b>3日目夜など早い時間</b>に設定されていると、育成が追いつかないことがある。低レベルのまま殲滅部隊として出すと、想定より駐城部隊を削れない。</p>
+    <p style="margin:0">関攻城の時刻から逆算し、<b>そこまでに平均Lv30へ仕上げるか、間に合わなければ関突破後の移行に切り替えるか</b>を早めに決めておく。</p>
+  </div>
+
+  <h2>まとめ</h2>
+  <ol class="steps">
+    <li>最終編成を決める（例：豊臣7・福島6・成田6 ＝ コスト19）</li>
+    <li>初期上限15の代替編成でスタダ開始（福島6・成田6・加藤3）</li>
+    <li>48時間以内に 天守Lv8・演武場Lv1・軍策所Lv2（上限 15→19）</li>
+    <li>演武場で豊臣秀吉をLv20まで育成</li>
+    <li>保護期間中に 加藤嘉明 ⇄ 豊臣秀吉 を入替</li>
+    <li>豊臣Lv20／福島Lv33前後／成田Lv33前後 で移行完了</li>
+  </ol>
+</section>
+
+<!-- ══ 06 内政 ══ -->
+<section class="panel" role="tabpanel" id="p6" aria-labelledby="t6" hidden>
+  <h2>職人解放の順</h2>
+  <table>
+    <thead><tr><th>順</th><th>職人</th><th>効果</th></tr></thead>
+    <tbody>
+      <tr><td class="good n">1</td><td><b>弁論</b></td><td>督促で<b>資源獲得量が2倍</b>。序盤の資源速度そのものを底上げするので他すべてに先んじる</td></tr>
+      <tr><td class="good n">2</td><td><b>算術</b></td><td><b>無料で労力を獲得</b>。労力雇用が解禁され、物資・銅銭の消費削減、勢力親交にも効く</td></tr>
+      <tr><td class="n">3</td><td>武芸</td><td>一揆レベルに合わせて <b>Lv2〜3</b>。中盤以降の一揆鎮圧用</td></tr>
+      <tr><td class="n">4</td><td>茶道</td><td>序盤は優先度が低い</td></tr>
+      <tr><td class="n">5</td><td>建築</td><td><b>Lv2</b> まで上げて幕舎建設の準備</td></tr>
+    </tbody>
+  </table>
+
+  <h2>爆倉のやり方</h2>
+  <div class="box">
+    <p style="margin:0 0 6px">倉庫が上限に達していても、<b>報酬は受け取るまで消滅しない</b>。これを利用する。</p>
+    <ul class="tight">
+      <li>ミッション第7章の石材報酬・評定衆の報酬を、その場で受け取らず温存</li>
+      <li>天守昇級のタイミングに合わせて一括受取 → 倉庫上限を超えて石材を確保</li>
+      <li>天守7では倉庫をLv8まで上げたうえで、第10章までの報酬を温存し 14時・20時 の2回に分けて受取</li>
+    </ul>
+  </div>
+
+  <div class="box warn">
+    <div class="h">受け取る順番を間違えると爆倉できない</div>
+    <ol class="steps">
+      <li>まず<b>徴発</b>で倉庫を溢れさせる</li>
+      <li><b>章クエスト報酬</b></li>
+      <li><b>軍評定</b></li>
+      <li><b>国衆上納</b></li>
+    </ol>
+    <p class="note" style="margin:8px 0 0">この順で受け取ると効率よく溢れる。順序を崩すと爆倉が成立しなくなる場合がある。</p>
+  </div>
+
+  <h2>天守で開くもの</h2>
+  <table>
+    <thead><tr><th>天守</th><th>開くもの</th></tr></thead>
+    <tbody>
+      <tr><td class="n">6</td><td>国衆上納 <b>1回→2回</b>／徴発ボーナス <b>盟約の品</b> 解放</td></tr>
+      <tr><td class="n">7</td><td>初日24時の締切。ここまでは全員共通</td></tr>
+      <tr><td class="n">8</td><td>ここで止めて兵舎（軍営）を上げる選択肢。低凸で戦力重視向け</td></tr>
+      <tr><td class="n">9</td><td>資源産出増／評定の選択肢 +1／盟約の品 枠 +5。中盤の資源差に直結</td></tr>
+    </tbody>
+  </table>
+  <p class="note">序盤の戦力を取るか、中盤の資源基盤を取るか。分岐はここだけ。</p>
+
+  <h2>勢力親交・盟約の品</h2>
+  <p class="note"><b>第8章クリア後</b>に勢力親善を行うと信物収集が解放される。</p>
+  <div class="box">
+    <div class="h">まず確保する2種</div>
+    <ul class="tight">
+      <li><b>徴発促進策</b>／資源の徴発を効率化</li>
+      <li><b>物資調達の証</b>／資源の生産量を増やす</li>
+    </ul>
+    <div class="h" style="margin-top:10px">それ以外</div>
+    <ul class="tight">
+      <li>親交は<b>2段階（産出量増加）まで</b>で十分</li>
+      <li>親交アイテムには武将ごとに<b>好み・嫌いがある</b>。使う前に必ず確認する</li>
+    </ul>
+  </div>
+
+  <h2>資源と体力</h2>
+  <ul class="tight">
+    <li><b>石材</b>／Lv5以上の石材地を占領し、積極的に徴発。天守6・7のタイムラインはこれが前提</li>
+    <li><b>体力</b>／初心者期間は消費が半分。この間におにぎりを使い、資源地の拡張とレベル上げを急ぐ。ここで増やした資源地の数が以降の内政速度を決める</li>
+  </ul>
+</section>
+
+<!-- ══ 07 実績 ══ -->
+<section class="panel" role="tabpanel" id="p7" aria-labelledby="t7" hidden>
+  <h2>S4 スタダ実績 ─ 回答12件</h2>
+  <p class="note">48時間前後の到達点を集計したもの。前章までの目安が実際にどこまで通ったかを突き合わせるための実数。</p>
+
+  <div class="box warn">
+    <div class="h">最大の発見 ─ 軍策所Lv2に届いたのは1名</div>
+    <p style="margin:0 0 6px">軍策所<b>Lv0のまま48時間を終えたのが10名</b>。Lv1が2名で、うち期間内にLv2へ届いてコスト19の入替を完了したのは<b>1名だけ</b>。</p>
+    <p style="margin:0">移行タブが前提にしている「48時間以内に天守8・演武場1・軍策所2」は、実際にはほぼ成立していない。天守8と兵舎を優先すると軍策が後回しになるため、次回は<b>コスト18以下で最終編成を組む</b>か、<b>軍策所を明示的に建設順へ入れる</b>かを開始前に決めておく。</p>
+  </div>
+
+  <h2>到達点の分布</h2>
+  <table>
+    <thead><tr><th>項目</th><th>分布</th><th>中央</th></tr></thead>
+    <tbody>
+      <tr><td>天守</td><td><span class="n">8</span>＝8名／<span class="n">7</span>＝4名</td><td class="good n">8</td></tr>
+      <tr><td>兵舎</td><td><span class="n">10</span>＝4名／<span class="n">7〜8</span>＝4名／<span class="n">5</span>＝3名／<span class="n">0</span>＝1名</td><td class="good n">7</td></tr>
+      <tr><td>軍策所</td><td class="bad"><span class="n">0</span>＝10名／<span class="n">1</span>＝2名</td><td class="bad n">0</td></tr>
+      <tr><td>土地</td><td>Lv<span class="n">6</span>到達＝9名／1種のみLv<span class="n">6</span>＝1名／Lv<span class="n">5</span>止まり＝2名</td><td class="good">Lv<span class="n">6</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>部隊レベル</h3>
+  <table>
+    <thead><tr><th>部隊</th><th>幅</th><th>中央</th></tr></thead>
+    <tbody>
+      <tr><td>主力</td><td>Lv<span class="n">28</span> 〜 <span class="n">33</span></td><td class="good">Lv<span class="n">30</span></td></tr>
+      <tr><td>二軍</td><td>Lv<span class="n">16</span> 〜 <span class="n">25</span></td><td class="good">Lv<span class="n">20</span></td></tr>
+      <tr><td>兵器</td><td>Lv<span class="n">9</span> 〜 <span class="n">20</span></td><td>Lv<span class="n">14</span> 前後</td></tr>
+    </tbody>
+  </table>
+  <p class="note">主力は<b>Lv30前後で綺麗に揃う</b>。差がついたのは二軍と兵器で、ここが伸びた人ほど土地Lv6を安定して回せている。移行タブの目安（主力Lv33前後）に届いたのは上位2名だけ。</p>
+
+  <div class="box">
+    <div class="h">目安との突き合わせ</div>
+    <ul class="tight">
+      <li><b>Lv5土地</b>／安全ライン Lv17 ─ 実績側からの提言は<b>Lv18</b>。ほぼ一致</li>
+      <li><b>Lv6土地</b>／安全ライン Lv26 ─ 実績側は<b>Lv28＋兵舎5</b>。目安より上を要求している</li>
+      <li>土地タブの「低凸は鵜呑みにしない」は、実績側から裏づけられた形</li>
+    </ul>
+  </div>
+
+  <h2>失敗の内訳</h2>
+  <table>
+    <thead><tr><th>分類</th><th>件数</th><th>中身</th></tr></thead>
+    <tbody>
+      <tr><td class="bad">土地での兵損・敗北</td><td class="n">7</td><td>Lv4〜6で1回ずつ失敗／兵損 <span class="n">500〜1000</span> が連発し徴兵に資源を持っていかれた</td></tr>
+      <tr><td class="bad">受取・操作の凡ミス</td><td class="n">3</td><td>勲功の序盤支援を限定物資と取り違えて消費／検知ボタン誤爆で二軍全滅／役職上昇後の国衆枠増加を見逃し</td></tr>
+      <tr><td class="bad">二軍・兵器の育成遅れ</td><td class="n">3</td><td>天守8を目指し過ぎて兵器が遅れた／体力不足時に二軍を育て、兵損が主力育成に波及</td></tr>
+      <tr><td class="bad">編成選択のミス</td><td class="n">2</td><td>統率の低い武将を主力に採用／回復量が足りず入替が後手に</td></tr>
+      <tr><td class="bad">自爆部隊の不使用</td><td class="n">2</td><td>使っていれば兵損を抑えられたはず、という自己申告</td></tr>
+      <tr><td>時間不足</td><td class="n">1</td><td>大きな失敗はなく、単純に時間が足りない</td></tr>
+    </tbody>
+  </table>
+  <p class="note">兵損が突出して多い。<b>編成の当たり外れではなく、踏み込む土地レベルの判断で差がついた</b>と読める。</p>
+
+  <h2>次回への申し送り</h2>
+  <ul class="tight">
+    <li><b>Lv6を狙う前にLv5で土地枠を埋め切る</b>。Lv6に突っ込んで兵損を出すと、体力が残っていても動けない時間帯が生まれる</li>
+    <li><b>Lv5＝部隊Lv18／Lv6＝部隊Lv28＋兵舎5</b> まで我慢する</li>
+    <li><b>督促（弁論）を早めに取る</b></li>
+    <li><b>自爆部隊を最初から運用に組み込む</b>。後から気づいた人が複数</li>
+    <li>周囲に有利兵種がいない時は<b>守護軍転換</b>の使用も視野に</li>
+    <li><b>統率の低い武将を主力に置かない</b>。回復量は編成確定前に確認する</li>
+    <li>一軍は温存し、<b>報酬でレベルを上げる</b>鉄則を忘れない</li>
+    <li>Lv4は毛利隊、Lv5は山内など<b>弱い部隊だけを選んで踏む</b></li>
+  </ul>
+
+  <h2>個票</h2>
+  <table>
+    <thead><tr><th>—</th><th>天／兵／軍</th><th>土地</th><th>主力</th><th>二軍／兵器</th></tr></thead>
+    <tbody>
+      <tr><td class="n">A</td><td>8 / 5 / 0</td><td>Lv6</td><td class="n">30</td><td>24 / 12</td></tr>
+      <tr><td class="n">B</td><td>8 / 10 / 1</td><td>Lv6</td><td class="n">31</td><td>16 / 14</td></tr>
+      <tr><td class="n">C</td><td>8 / 5 / 0</td><td>石のみLv6</td><td class="n">28</td><td>20 / 18</td></tr>
+      <tr><td class="n">D</td><td>8 / 7 / 0</td><td>Lv6</td><td class="n">30</td><td>22 / 20</td></tr>
+      <tr><td class="n">E</td><td>7 / 8 / 0</td><td>Lv6</td><td class="n">30</td><td>20 / 18</td></tr>
+      <tr><td class="n">F</td><td>8 / 10 / 1→2</td><td>Lv6</td><td class="n">33</td><td>25 / 33</td></tr>
+      <tr><td class="n">G</td><td>7 / 7 / 0</td><td>Lv6</td><td class="n">30</td><td>25 / 12</td></tr>
+      <tr><td class="n">H</td><td>8 / 7 / 0</td><td>Lv6</td><td class="n">30</td><td>24 / 20</td></tr>
+      <tr><td class="n">I</td><td>7 / 5 / 0</td><td>Lv6</td><td class="n">30</td><td>— / 12</td></tr>
+      <tr><td class="n">J</td><td>8 / 10 / 0</td><td>枠9割 Lv5</td><td class="n">29</td><td>20 / 9</td></tr>
+      <tr><td class="n">K</td><td>8 / 0 / 0</td><td>Lv5</td><td class="n">29</td><td>20 / 12</td></tr>
+      <tr><td class="n">L</td><td>7 / 10 / 0</td><td>Lv6</td><td class="n">31</td><td>20 / 20</td></tr>
+    </tbody>
+  </table>
+  <p class="note">Cは3キャラ運用のためメインの数値。主力・二軍・兵器が複数記載の回答は最上位の1部隊を採った。</p>
+</section>
+
+<footer>
+  数値・効果は変更される可能性がある。守備軍の戦法5種は名称ではなく効果ベースで覚えること。<br>
+  初日タブの進捗チェックと開いていたタブ・フィルタ状態は端末に保存される。ホーム画面に追加すれば全画面のアプリとして起動できる。
+</footer>
+
+</div>
+
+<script>
+/* ── アプリ外殻：アイコン・マニフェストを実行時に注入（単一ファイルのまま install 情報を持たせる） ── */
+(function(){
+  try{
+    var ICON="data:image/svg+xml,"+encodeURIComponent(
+      "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'>"
+      +"<rect width='64' height='64' rx='14' fill='#f4f3ea'/>"
+      +"<rect x='6' y='6' width='52' height='52' rx='11' fill='none' stroke='#2c4a37' stroke-width='2'/>"
+      +"<text x='32' y='45' font-family='serif' font-size='30' font-weight='700' fill='#2c4a37' text-anchor='middle'>\u5E33</text></svg>");
+    function link(rel,href,type){var l=document.createElement('link');l.rel=rel;l.href=href;if(type)l.type=type;document.head.appendChild(l);}
+    link('icon',ICON,'image/svg+xml');
+    link('apple-touch-icon',ICON);
+    var mani={name:"スタートダッシュ陣中手帳",short_name:"陣中手帳",start_url:".",scope:".",display:"standalone",orientation:"portrait",background_color:"#f4f3ea",theme_color:"#f4f3ea",icons:[{src:ICON,sizes:"192x192",type:"image/svg+xml"},{src:ICON,sizes:"512x512",type:"image/svg+xml"}]};
+    var url=URL.createObjectURL(new Blob([JSON.stringify(mani)],{type:"application/manifest+json"}));
+    link('manifest',url);
+  }catch(e){}
+})();
+
+(function(){
+  /* ── 保存層：直接開いた場合は localStorage、埋め込みプレビュー等で使えない時はメモリに退避（クラッシュしない） ── */
+  var mem={},P="jinchu.";
+  function get(k){try{var v=localStorage.getItem(P+k);return v===null?null:v;}catch(e){return (P+k) in mem?mem[P+k]:null;}}
+  function set(k,v){try{localStorage.setItem(P+k,v);}catch(e){mem[P+k]=v;}}
+
+  /* ── 章の切替（開いていた章を記憶） ── */
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  function show(tab,save){
+    tabs.forEach(function(t){
+      var on=(t===tab);
+      t.setAttribute('aria-selected',on?'true':'false');
+      document.getElementById(t.getAttribute('aria-controls')).hidden=!on;
+    });
+    if(save!==false)set('tab',tab.id);
+    window.scrollTo(0,0);
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){show(t)});
+    t.addEventListener('keydown',function(e){
+      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;
+      if(!d)return;e.preventDefault();
+      var n=tabs[(i+d+tabs.length)%tabs.length];n.focus();show(n);
+    });
+  });
+  var savedTab=get('tab');
+  if(savedTab){var te=document.getElementById(savedTab);if(te)show(te,false);}
+
+  /* ── 初日 進捗チェック ── */
+  var stops=[].slice.call(document.querySelectorAll('.stop[data-k]'));
+  var fill=document.getElementById('progFill');
+  var ptxt=document.getElementById('progTxt');
+  var done={};
+  try{done=JSON.parse(get('done')||'{}')||{};}catch(e){done={};}
+  function paint(){
+    var n=0;
+    stops.forEach(function(s){
+      var on=!!done[s.dataset.k];
+      s.classList.toggle('done',on);
+      var b=s.querySelector('.chk');
+      if(b)b.setAttribute('aria-pressed',on?'true':'false');
+      if(on)n++;
+    });
+    var pct=stops.length?Math.round(n/stops.length*100):0;
+    if(fill)fill.style.width=pct+'%';
+    if(ptxt)ptxt.textContent=n+' / '+stops.length+' 完了';
+  }
+  stops.forEach(function(s){
+    var b=s.querySelector('.chk');
+    if(!b)return;
+    b.addEventListener('click',function(){
+      if(done[s.dataset.k])delete done[s.dataset.k];else done[s.dataset.k]=1;
+      set('done',JSON.stringify(done));paint();
+    });
+  });
+  var rs=document.getElementById('reset');
+  if(rs)rs.addEventListener('click',function(){done={};set('done','{}');paint();});
+  paint();
+
+  /* ── 相性フィルタ（選択を記憶） ── */
+  var chips=[].slice.call(document.querySelectorAll('.chip'));
+  var foes=[].slice.call(document.querySelectorAll('.foe'));
+  var verdict=document.getElementById('verdict');
+  var names={active:'犬山離弦',tetsu:'一鉄之守',heal1:'五龍城忠弓',focus:'梅雪縦横',ctrl:'薫兜赴義'};
+  function applyChips(){
+    var on=chips.filter(function(c){return c.getAttribute('aria-pressed')==='true'}).map(function(c){return c.dataset.f});
+    foes.forEach(function(f){
+      f.classList.remove('on','off');
+      if(on.length)f.classList.add(on.indexOf(f.dataset.f)>-1?'on':'off');
+    });
+    if(!on.length){verdict.textContent='型を選ぶと、避けるべき戦法が絞り込まれる。';}
+    else{
+      var list=on.map(function(k){return names[k]}).join('・');
+      verdict.innerHTML='偵察で <b>'+list+'</b> を積んだ守備軍を確認したら、その土地は飛ばす。'
+        +(on.length>2?' 該当が多い編成は、Lv5土地の候補が絞られる。中継枠の見直しも検討。':'');
+    }
+    set('chips',JSON.stringify(on));
+  }
+  var savedChips=[];try{savedChips=JSON.parse(get('chips')||'[]')||[];}catch(e){savedChips=[];}
+  chips.forEach(function(c){
+    if(savedChips.indexOf(c.dataset.f)>-1)c.setAttribute('aria-pressed','true');
+    c.addEventListener('click',function(){
+      c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')==='true'?'false':'true');
+      applyChips();
+    });
+  });
+  applyChips();
+})();
+</script>
+</body>
+</html>
