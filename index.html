@@ -298,6 +298,24 @@ table.qt td small{display:block;color:var(--ink-sub);font-size:11px;font-weight:
 .rc-dl div:last-child{text-align:right}
 .rc-cm{margin:12px 0 0;padding:10px 12px;background:var(--bg);border-left:3px solid var(--green);border-radius:0 4px 4px 0;font-size:15px;line-height:1.75;color:var(--ink)}
 @media (max-width:420px){.rc-dl{grid-template-columns:1fr}.rc-dl div:last-child{text-align:left}}
+table.mv td{font-size:14px;line-height:1.7}
+table.mv td.nm{white-space:nowrap;font-weight:700;color:var(--tone)}
+#ck-out{--g1:#3E7B52;--g2:#7E8C35;--g3:#B07A1E;--g4:#8B3A2F;--g1b:#E4EFE6;--g2b:#EFF1DF;--g3b:#F7EDD8;--g4b:#F5E3DF}
+.ck-legend{margin-top:24px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:8px}
+.ck-scale{height:10px;border-radius:5px;background:linear-gradient(90deg,var(--g1),var(--g2) 35%,var(--g3) 65%,var(--g4))}
+.ck-scale-l{display:flex;justify-content:space-between;font-size:12px;font-weight:700;margin-top:6px}
+.ck-scale-l span:nth-child(1){color:var(--g1)}.ck-scale-l span:nth-child(2){color:var(--g2)}.ck-scale-l span:nth-child(3){color:var(--g3)}.ck-scale-l span:nth-child(4){color:var(--g4)}
+.ck-group[data-l="1"]{--c:var(--g1);--cb:var(--g1b)}
+.ck-group[data-l="2"]{--c:var(--g2);--cb:var(--g2b)}
+.ck-group[data-l="3"]{--c:var(--g3);--cb:var(--g3b)}
+.ck-group[data-l="4"]{--c:var(--g4);--cb:var(--g4b)}
+.ck-group h3{border-bottom-color:var(--c)!important;color:var(--c)!important}
+.ck-chip{display:inline-block;background:var(--c);color:var(--surface);font-size:15px;padding:2px 12px;border-radius:4px;letter-spacing:.06em}
+.ck-group .ck-item{border:1px solid var(--line);border-left:6px solid var(--c);background:var(--cb)}
+.ck-group .ck-item .hd b{color:var(--c)}
+.ck-group[data-l="4"] .ck-item{opacity:.92}
+.ck-meter{position:relative;height:6px;border-radius:3px;margin:10px 0 2px;background:linear-gradient(90deg,var(--g1),var(--g2) 35%,var(--g3) 65%,var(--g4));opacity:.85}
+.ck-meter i{position:absolute;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:var(--surface);border:3px solid var(--c);box-shadow:none}
 footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-sub)}
 @media (max-width:420px){h1{font-size:26px}.src{grid-template-columns:minmax(0,1fr) 104px}}
 /* ===== 視認性向上（意匠の追い込み） ===== */
@@ -421,12 +439,6 @@ nav.toc button[data-tone][aria-selected="true"]{color:var(--tone);border-bottom-
 table.qt td.num{color:var(--ai)}
 .rc-num{color:var(--accent)}
 .rc-cm{background:var(--sumire-bg);border-left-color:var(--sumire)}
-.ck-group:nth-of-type(1) h3{color:var(--accent)}
-.ck-group:nth-of-type(2) h3{color:var(--yama)}
-.ck-group:nth-of-type(4) h3{color:var(--green-2)}
-.ck-item.l3{border-color:var(--yama);background:var(--yama-bg)}
-.ck-item.l4{background:var(--shu-bg)}
-.ck-item.l1{border-color:var(--green-2)}
 th{background:var(--tone,var(--green-2))}
 details.acc{margin-top:16px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
 details.acc>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 16px;border-left:4px solid var(--tone);border-radius:8px}
@@ -719,6 +731,91 @@ body.quick details.acc>summary::after{display:none}
   </div>
 
   <div class="fgroup">
+  <h3>攻略サイトのおすすめ編成<span class="tag" style="margin-left:8px">九州制覇</span></h3>
+  <p class="sub">公式編成以外の選択肢として。特におすすめは武田信玄・伊達政宗・柿崎景家の3編成。ボタンは大将で選びます。</p>
+  <div class="fpick" role="group" aria-label="攻略サイトの編成を選ぶ"><button type="button" data-f="s5-shingen" aria-pressed="true">武田信玄</button><button type="button" data-f="s5-date" aria-pressed="false">伊達政宗</button><button type="button" data-f="s5-kakizaki" aria-pressed="false">柿崎景家</button><button type="button" data-f="s5-hojo" aria-pressed="false">北条氏康</button><button type="button" data-f="s5-hideyoshi" aria-pressed="false">豊臣秀吉</button><button type="button" data-f="s5-fukushima" aria-pressed="false">福島正則</button><button type="button" data-f="s5-shibata" aria-pressed="false">柴田勝家</button></div>
+  <div class="form">
+<div class="unit fdata" data-f="s5-shingen">
+  <h4>武田信玄＋里見義堯＋お市／加藤嘉明</h4>
+  <div class="in">
+    <p class="label2">スタダ（C15）</p>
+    <div class="tbl"><table class="ft"><thead><tr><th>武将</th><th>C15</th><th>覚醒後 戦法一</th><th>覚醒後 戦法二</th></tr></thead><tbody><tr><td class="nm">武田信玄<small>C7・大将</small></td><td><span class="tc">攻其不備</span><span class="tc">乱世の華</span></td><td><span class="tc">乱世の華</span></td><td><span class="tc">文武両道</span></td></tr><tr><td class="nm">里見義堯<small>C4</small></td><td><span class="tc">縦横馳突</span></td><td><span class="tc">縦横馳突</span></td><td><span class="tc">境目奮戦</span></td></tr><tr><td class="nm">お市／加藤嘉明<small>C3</small></td><td><span class="tc">気炎万丈</span></td><td><span class="tc">気炎万丈</span></td><td><span class="tc">草木皆兵</span></td></tr></tbody></table></div>
+    <p class="label2" style="margin-top:14px">移行の流れ</p>
+    <div class="tbl"><table class="mv"><tbody><tr><td class="nm">C16</td><td>武田信玄（乱世の華・文武両道）／馬場信春（戮力同心・三河弓兵隊）／お市・加藤嘉明（草木皆兵・荷駄崩し）</td></tr><tr><td class="nm">C19</td><td>武田信玄（乱世の華・文武両道）／馬場信春（戮力同心・三河弓兵隊）／山本勘助（草木皆兵・荷駄崩し）</td></tr><tr><td class="nm">C20</td><td>武田信玄（乱世の華・文武両道）／馬場信春（戮力同心・知者楽水）／真田昌幸（回天転運・瞬息万変）</td></tr></tbody></table></div>
+    <p class="label2" style="margin-top:14px">ポイント</p>
+    <ul class="plain"><li>武田信玄は<strong>1凸以上</strong>が必要。無凸なら見送り</li><li>お市か加藤嘉明かは移行先で決める。馬場信春など耐久・回復役を使うなら加藤嘉明</li><li>足軽で戦う間は一領具足を入れると、土地7以降の兵損が減る</li><li>C16は山本勘助でも可。立ち上がりが早いC19（山本勘助型）がおすすめ</li><li>加藤嘉明は途中で千軍辟易＋電光石火に変えてもよい</li></ul>
+  </div>
+</div>
+<div class="unit fdata" data-f="s5-date" hidden>
+  <h4>伊達政宗＋本多正信＋加藤嘉明</h4>
+  <div class="in">
+    <p class="label2">スタダ（C15）</p>
+    <div class="tbl"><table class="ft"><thead><tr><th>武将</th><th>C15</th><th>覚醒後 戦法一</th><th>覚醒後 戦法二</th></tr></thead><tbody><tr><td class="nm">伊達政宗<small>C7・大将</small></td><td><span class="tc">乱世の華</span><span class="tc">攻其不備</span></td><td><span class="tc">攻其不備</span></td><td><span class="tc">竜騎兵</span></td></tr><tr><td class="nm">本多正信<small>C5</small></td><td><span class="tc">気炎万丈</span></td><td><span class="tc">気炎万丈</span></td><td><span class="tc">草木皆兵</span></td></tr><tr><td class="nm">加藤嘉明<small>C3</small></td><td><span class="tc">千軍辟易</span></td><td><span class="tc">千軍辟易</span></td><td><span class="tc">三方挟撃</span></td></tr></tbody></table></div>
+    <p class="label2" style="margin-top:14px">移行の流れ</p>
+    <div class="tbl"><table class="mv"><tbody><tr><td class="nm">C16</td><td>伊達政宗（攻其不備・竜騎兵）／島津義久（回天転運・三方挟撃）／加藤嘉明（気炎万丈・千軍辟易）</td></tr><tr><td class="nm">C19</td><td>伊達政宗（攻其不備・竜騎兵）／三好実休（帰還の凱歌・境目奮戦）／島津義久（深慮遠謀・三方挟撃）</td></tr><tr><td class="nm">C20</td><td>伊達政宗（攻其不備・竜騎兵）／龍造寺隆信（御旗楯無・自立の志）／島津義久（回天転運・三方挟撃）</td></tr></tbody></table></div>
+    <p class="label2" style="margin-top:14px">ポイント</p>
+    <ul class="plain"><li>伊達政宗の凸が進んでいる人向け。最終編成まで強さを保ちやすい</li><li>本多正信がいるので、<strong>稲葉重通（一鉄之守の必中）に注意</strong></li><li>竜騎兵は使いどころに注意。守備軍に兵種有利を取れるときは乱世の華などに替える</li><li>龍造寺隆信なら兵刃対策型、三好実休なら耐久と火力を両立した計略型</li></ul>
+  </div>
+</div>
+<div class="unit fdata" data-f="s5-kakizaki" hidden>
+  <h4>柿崎景家＋本多正信＋加藤嘉明</h4>
+  <div class="in">
+    <p class="label2">スタダ（C15）</p>
+    <div class="tbl"><table class="ft"><thead><tr><th>武将</th><th>C15</th><th>覚醒後 戦法一</th><th>覚醒後 戦法二</th></tr></thead><tbody><tr><td class="nm">柿崎景家<small>C7・大将</small></td><td><span class="tc">縦横馳突</span></td><td><span class="tc">縦横馳突</span></td><td><span class="tc">乗勝追撃</span></td></tr><tr><td class="nm">本多正信<small>C5</small></td><td><span class="tc">気炎万丈</span></td><td><span class="tc">草木皆兵</span></td><td><span class="tc">気炎万丈</span></td></tr><tr><td class="nm">加藤嘉明<small>C3</small></td><td><span class="tc">千軍辟易</span></td><td><span class="tc">千軍辟易</span></td><td><span class="tc">会盟の陣</span></td></tr></tbody></table></div>
+    <p class="label2" style="margin-top:14px">移行の流れ</p>
+    <div class="tbl"><table class="mv"><tbody><tr><td class="nm">C16</td><td>柿崎景家（縦横馳突・乗勝追撃）／柴田勝家（会盟の陣・越後先手組）／加藤嘉明（千軍辟易・気炎万丈）</td></tr><tr><td class="nm">C20 案1</td><td>柿崎景家（縦横馳突・乗勝追撃）／柴田勝家（会盟の陣・越後先手組）／立花誾千代（気炎万丈・千軍辟易）</td></tr><tr><td class="nm">C20 案2</td><td>柿崎景家（縦横馳突・乗勝追撃）／上杉謙信（越後先手組・勇猛無比）／宇佐美定満（直諫敢行・三方挟撃）</td></tr></tbody></table></div>
+    <p class="label2" style="margin-top:14px">ポイント</p>
+    <ul class="plain"><li>柿崎景家の凸が多い人向け。上杉騎馬か会盟の陣の騎馬編成へ仕上げる</li><li>本多正信がいるので、<strong>稲葉重通（一鉄之守の必中）に注意</strong></li><li>柿崎景家の無策で被ダメを抑えつつ安定した火力。千軍辟易＋気炎万丈と合わせて威圧も狙える</li><li>アタッカーが1人なので、草木皆兵や千軍辟易で火力を補う</li><li>上杉騎馬にするなら、C16で宇佐美定満を入れるか、C17まで待って上杉謙信を入れる</li></ul>
+  </div>
+</div>
+<div class="unit fdata" data-f="s5-hojo" hidden>
+  <h4>北条氏康＋福島正則／成田甲斐＋お市</h4>
+  <div class="in">
+    <p class="label2">スタダ（C15）</p>
+    <div class="tbl"><table class="ft"><thead><tr><th>武将</th><th>C15</th><th>覚醒後 戦法一</th><th>覚醒後 戦法二</th></tr></thead><tbody><tr><td class="nm">北条氏康<small>C6・大将</small></td><td><span class="tc">会盟の陣</span></td><td><span class="tc">草木皆兵</span></td><td><span class="tc">瞬息万変</span></td></tr><tr><td class="nm">福島正則／成田甲斐<small>C6</small></td><td><span class="tc">一力当先</span></td><td><span class="tc">一力当先</span></td><td><span class="tc">縦横馳突</span></td></tr><tr><td class="nm">お市<small>C3</small></td><td><span class="tc">気炎万丈</span></td><td><span class="tc">気炎万丈</span></td><td><span class="tc">会盟の陣</span></td></tr></tbody></table></div>
+    <p class="label2" style="margin-top:14px">移行の流れ</p>
+    <div class="tbl"><table class="mv"><tbody><tr><td class="nm">C16</td><td>立花道雪（勇猛無比・霹靂一撃）／北条氏康（一領具足・三河武士）／お市（草木皆兵・気炎万丈）</td></tr><tr><td class="nm">C20</td><td>立花誾千代（御旗楯無・五里霧中）／立花道雪（勇猛無比・霹靂一撃）／北条氏康（一領具足・三河武士）</td></tr></tbody></table></div>
+    <p class="label2" style="margin-top:14px">ポイント</p>
+    <ul class="plain"><li>中級者〜上級者向け</li><li>一鉄之守の必中に加え、奪気で鉄壁を剥がされるため、<strong>土地4・5は苦戦しやすい</strong></li><li>福島正則の凸が少ないなら、土地5はLv17以降に</li><li>立花誾千代の凸が多ければ、雷神切り＋千軍辟易でC16から誾千代を入れてもよい</li></ul>
+  </div>
+</div>
+<div class="unit fdata" data-f="s5-hideyoshi" hidden>
+  <h4>豊臣秀吉＋里見義堯＋吉岡妙林</h4>
+  <div class="in">
+    <p class="label2">スタダ（C15）</p>
+    <div class="tbl"><table class="ft"><thead><tr><th>武将</th><th>C15</th><th>覚醒後 戦法一</th><th>覚醒後 戦法二</th></tr></thead><tbody><tr><td class="nm">豊臣秀吉<small>C7・大将</small></td><td><span class="tc">草木皆兵</span></td><td><span class="tc">三河弓兵隊</span></td><td><span class="tc">百術千慮</span></td></tr><tr><td class="nm">里見義堯<small>C4</small></td><td><span class="tc">縦横馳突</span></td><td><span class="tc">縦横馳突</span></td><td><span class="tc">境目奮戦</span></td></tr><tr><td class="nm">吉岡妙林<small>C3</small></td><td><span class="tc">三方挟撃</span></td><td><span class="tc">三方挟撃</span></td><td><span class="tc">草木皆兵</span></td></tr></tbody></table></div>
+    <p class="label2" style="margin-top:14px">移行の流れ</p>
+    <div class="tbl"><table class="mv"><tbody><tr><td class="nm">C16</td><td>豊臣秀吉（三河弓兵隊・知者楽水）／福島正則（縦横馳突・一力当先）／吉岡妙林（三方挟撃・草木皆兵）</td></tr><tr><td class="nm">C19</td><td>豊臣秀吉（三河弓兵隊・知者楽水）／福島正則（縦横馳突・一力当先）／ねね（恵風和雨・草木皆兵）</td></tr><tr><td class="nm">C20</td><td>黒田官兵衛（七十二の計・紅蓮の炎）／豊臣秀吉（三河弓兵隊・知者楽水）／ねね（恵風和雨・草木皆兵）</td></tr></tbody></table></div>
+    <p class="label2" style="margin-top:14px">ポイント</p>
+    <ul class="plain"><li>吉岡妙林が敵の兵刃ダメージを下げつつ火力を出し、豊臣秀吉の回復で受け止める。吉岡妙林は自軍で最速</li><li>火力は里見義堯頼みなので、凸数の要求は高め</li><li>三方挟撃は百術千慮に替えてもよい</li><li>7日目の育成継承で福島正則から黒田官兵衛へ。ねねは罵詈雑言・沈魚落雁でも可</li></ul>
+  </div>
+</div>
+<div class="unit fdata" data-f="s5-fukushima" hidden>
+  <h4>福島正則＋成田甲斐＋お市</h4>
+  <div class="in">
+    <p class="label2">スタダ（C15）</p>
+    <div class="tbl"><table class="ft"><thead><tr><th>武将</th><th>C15</th><th>覚醒後 戦法一</th><th>覚醒後 戦法二</th></tr></thead><tbody><tr><td class="nm">福島正則<small>C6・大将</small></td><td><span class="tc">縦横馳突</span></td><td><span class="tc">一力当先</span></td><td><span class="tc">縦横馳突</span></td></tr><tr><td class="nm">成田甲斐<small>C6</small></td><td><span class="tc">一力当先</span><span class="tc">乗勝追撃</span></td><td><span class="tc">乗勝追撃</span></td><td><span class="tc">威風凜々</span></td></tr><tr><td class="nm">お市<small>C3</small></td><td><span class="tc">気炎万丈</span></td><td><span class="tc">気炎万丈</span></td><td><span class="tc">草木皆兵</span></td></tr></tbody></table></div>
+    <p class="label2" style="margin-top:14px">移行の流れ</p>
+    <div class="tbl"><table class="mv"><tbody><tr><td class="nm">C16</td><td>豊臣秀吉（三河弓兵隊・知者楽水）／福島正則（縦横馳突・一力当先）／お市（深慮遠謀・草木皆兵）</td></tr><tr><td class="nm">C19</td><td>豊臣秀吉（三河弓兵隊・回天転運）／福島正則（縦横馳突・一力当先）／ねね（罵詈雑言・沈魚落雁）</td></tr><tr><td class="nm">C20</td><td>黒田官兵衛（七十二の計・紅蓮の炎）／豊臣秀吉（三河弓兵隊・知者楽水）／ねね（恵風和雨・草木皆兵）</td></tr></tbody></table></div>
+    <p class="label2" style="margin-top:14px">ポイント</p>
+    <ul class="plain"><li>序盤の火力は十分。弱点は封撃</li><li>アタッカーの凸が多いほど早く倒せて兵損が減る。低凸でも火力は出しやすい</li><li>黒田官兵衛がいない場合の豊臣系編成の有力候補。7日目の継承で福島正則から黒田官兵衛へ</li></ul>
+  </div>
+</div>
+<div class="unit fdata" data-f="s5-shibata" hidden>
+  <h4>柴田勝家＋前田慶次／成田甲斐＋お市</h4>
+  <div class="in">
+    <p class="label2">スタダ（C15）</p>
+    <div class="tbl"><table class="ft"><thead><tr><th>武将</th><th>C15</th><th>覚醒後 戦法一</th><th>覚醒後 戦法二</th></tr></thead><tbody><tr><td class="nm">柴田勝家<small>C6・大将</small></td><td><span class="tc">千軍辟易</span></td><td><span class="tc">千軍辟易</span></td><td><span class="tc">越後先手組</span></td></tr><tr><td class="nm">前田慶次／成田甲斐<small>C6</small></td><td><span class="tc">縦横馳突</span><span class="tc">威風凜々</span></td><td><span class="tc">前田利家に交代：勇猛無比</span></td><td><span class="tc">一力当先</span></td></tr><tr><td class="nm">お市<small>C3</small></td><td><span class="tc">気炎万丈</span></td><td><span class="tc">気炎万丈</span></td><td><span class="tc">草木皆兵</span></td></tr></tbody></table></div>
+    <p class="label2" style="margin-top:14px">移行の流れ</p>
+    <div class="tbl"><table class="mv"><tbody><tr><td class="nm">覚醒後2</td><td>柴田勝家（千軍辟易・所向無敵）／まつ（気炎万丈・深慮遠謀）／お市（草木皆兵・三方挟撃）</td></tr><tr><td class="nm">C18</td><td>前田利家（勇猛無比・一力当先）／柴田勝家（千軍辟易・越後先手組）／まつ（気炎万丈・恵風和雨）</td></tr></tbody></table></div>
+    <p class="label2" style="margin-top:14px">ポイント</p>
+    <ul class="plain"><li>織田家編成として組め、C18へ移りやすい。騎馬編成では柿崎景家に次ぐ位置</li><li>前田利家は未覚醒だと厳しい。分割レベリングか練兵で覚醒させる</li><li>柴田勝家の凸が突出しているなら、柴田勝家＋まつ＋お市もよい</li><li>編成全体の凸数要求はやや高め</li></ul>
+  </div>
+</div>
+  </div>
+  </div>
+
+  <div class="fgroup">
   <h3>前季の公式推奨編成<span class="tag" style="margin-left:8px">四雄怒涛</span></h3>
   <p class="sub">守備軍は今季と同じ仕様です。見方は上の九州制覇版と同じで、朱字は四雄怒涛時点の新武将。</p>
   <div class="fpick" role="group" aria-label="前季の編成を選ぶ"><button type="button" data-f="p1-shibata" aria-pressed="true">柴田勝家／前田利家</button><button type="button" data-f="p1-date" aria-pressed="false">伊達政宗</button><button type="button" data-f="p1-fukushima" aria-pressed="false">福島正則／成田甲斐</button><button type="button" data-f="p1-kakizaki" aria-pressed="false">柿崎景家</button><button type="button" data-f="p1-harumune" aria-pressed="false">伊達晴宗</button></div>
@@ -783,74 +880,6 @@ body.quick details.acc>summary::after{display:none}
     <div class="card"><h4>全体攻撃を単体攻撃より先に</h4><p>単体攻撃で先に1人倒すと、全体攻撃の対象が1人分無駄になる。例：乗勝追撃 → 理非曲直の順。</p></div>
   </div>
 
-  <details class="fold">
-    <summary>参考：攻略サイトのおすすめ編成（四雄怒涛）<span class="sub">公式編成以外の選択肢として</span></summary>
-    <div class="in"><div class="form">
-    <div class="unit">
-      <h4>武田信玄＋里見義堯＋お市／加藤嘉明</h4>
-      <div class="in">
-        <div class="tbl"><table>
-          <thead><tr><th>武将</th><th>C15</th><th>覚醒後</th></tr></thead>
-          <tbody>
-            <tr><td class="nm">武田信玄</td><td>攻其不備・乱世の華</td><td>乱世の華＋文武両道</td></tr>
-            <tr><td class="nm">里見義堯</td><td>縦横馳突</td><td>縦横馳突＋境目奮戦</td></tr>
-            <tr><td class="nm">お市／加藤嘉明</td><td>気炎万丈</td><td>気炎万丈＋草木皆兵</td></tr>
-          </tbody>
-        </table></div>
-        <p><strong>その後：</strong>C16で馬場信春（戮力同心＋知者楽水）を追加（山本勘助でも可）。C19なら山本勘助（草木皆兵＋荷駄崩し）、C20なら真田昌幸（回天転運＋瞬息万変）。C19のほうが立ち上がりが早い。</p>
-        <p class="sub">武田信玄は1凸以上が欲しく、属性振りも必要。無凸なら別編成を。馬場信春など耐久回復役を入れるならお市より加藤嘉明が合います。</p>
-      </div>
-    </div>
-
-    <div class="unit">
-      <h4>北条氏康＋福島正則／成田甲斐＋お市</h4>
-      <div class="in">
-        <div class="tbl"><table>
-          <thead><tr><th>武将</th><th>C15</th><th>覚醒後</th></tr></thead>
-          <tbody>
-            <tr><td class="nm">北条氏康</td><td>会盟の陣</td><td>草木皆兵＋瞬息万変</td></tr>
-            <tr><td class="nm">福島正則／成田甲斐</td><td>一力当先</td><td>一力当先＋縦横馳突</td></tr>
-            <tr><td class="nm">お市</td><td>気炎万丈</td><td>気炎万丈＋会盟の陣</td></tr>
-          </tbody>
-        </table></div>
-        <p><strong>その後：</strong>C16で立花道雪（勇猛無比＋霹靂一撃）・北条氏康（一領具足＋三河武士）・お市（草木皆兵＋気炎万丈）。C20で立花誾千代（御旗楯無＋五里霧中）・立花道雪・北条氏康。</p>
-        <p class="sub"><span class="em">一鉄之守が天敵</span>で、土地4・5はやや苦戦します。福島正則の凸が低いなら土地5はLv17以降に。立花誾千代の凸が多く百戦錬磨＋千軍辟易で組めるなら、C16を誾千代で組んでも可。</p>
-      </div>
-    </div>
-
-    <div class="unit">
-      <h4>福島正則＋成田甲斐＋お市</h4>
-      <div class="in">
-        <div class="tbl"><table>
-          <thead><tr><th>武将</th><th>C15</th><th>覚醒後</th></tr></thead>
-          <tbody>
-            <tr><td class="nm">福島正則</td><td>一力当先</td><td>一力当先＋縦横馳突</td></tr>
-            <tr><td class="nm">成田甲斐</td><td>威風凜々</td><td>一触即発＋威風凜々</td></tr>
-            <tr><td class="nm">お市</td><td>気炎万丈</td><td>気炎万丈＋草木皆兵</td></tr>
-          </tbody>
-        </table></div>
-        <p><strong>その後：</strong>C19で豊臣秀吉（三河弓兵隊＋回天転運）・福島正則（縦横馳突＋一力当先）・ねね（罵詈雑言＋沈魚落雁）の豊臣編成へ。</p>
-        <p class="sub">序盤の火力は十分。弱点は封撃で、アタッカーの凸数がそのまま兵損に出ます。微課金・低凸なら2アタッカー構成が基本。威風凜々は乗勝追撃で代用可。黒田官兵衛がいない場合の豊臣編成の有力候補です。</p>
-      </div>
-    </div>
-
-    <div class="unit">
-      <h4>柴田勝家＋前田慶次／成田甲斐＋お市</h4>
-      <div class="in">
-        <div class="tbl"><table>
-          <thead><tr><th>武将</th><th>C15</th><th>覚醒後</th></tr></thead>
-          <tbody>
-            <tr><td class="nm">柴田勝家</td><td>千軍辟易</td><td>千軍辟易＋越後先手組</td></tr>
-            <tr><td class="nm">前田慶次／成田甲斐</td><td>縦横馳突／威風凜々</td><td>前田利家に交代（勇猛無比＋一力当先）</td></tr>
-            <tr><td class="nm">お市</td><td>気炎万丈</td><td>気炎万丈＋草木皆兵</td></tr>
-          </tbody>
-        </table></div>
-        <p><strong>その後：</strong>C18でまつ（気炎万丈＋恵風和雨）を入れた織田家編成へ。コスト18で移行しやすいのが利点。</p>
-        <p class="sub">前田利家は未覚醒だと厳しいので、覚醒済み2武将＋利家の分割レベリングか、練兵で覚醒させてから投入します。</p>
-      </div>
-    </div>
-    </div></div>
-  </details>
 </section>
 
 <section id="keisho">
@@ -1807,8 +1836,10 @@ body.quick details.acc>summary::after{display:none}
   }
   var LV={4:['避ける','この部隊では攻めない。別の土地を選ぶか、覚醒・編成変更のあとに'],
           3:['注意して攻める','兵損に気をつけて。偵察で兵種の相性も確認'],
-          2:['普通に攻めてOK','特に気にせず攻めてよい相手'],
-          1:['狙い目','この部隊なら優先して攻めてよい相手']};
+          2:['攻めてOK','特に気にせず攻めてよい相手'],
+          1:['狙い目','この部隊なら優先して攻めたい相手']};
+  function score(r){var b=r.R.filter(function(x){return x.k==='bad'}).length,g=r.R.filter(function(x){return x.k==='good'}).length;
+    var v=(r.lv-1)*25+Math.min(b,3)*4-Math.min(g,2)*4+(r.d[4]-1)*2;return Math.max(2,Math.min(98,v+8));}
   var BASE={1:'特に不利な点はありません',2:'特に不利な点はありません',3:'特に不利な点はありませんが、相手そのものが手ごわい',4:'特に不利な点はありませんが、相手そのものが最も手ごわい'};
   function repHtml(n){
     var a=REP.filter(function(x){return x.b===n});if(!a.length)return '';
@@ -1829,18 +1860,23 @@ body.quick details.acc>summary::after{display:none}
     document.querySelectorAll('#ck-land button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.land===st.land))});
     var res=D.filter(function(d){return st.land==='all'||String(d[1])===st.land}).map(judge);
     var out=document.getElementById('ck-out');out.innerHTML='';
-    [4,3,2,1].forEach(function(l){
+    res.forEach(function(r){r.sc=score(r)});
+    var leg=document.createElement('div');leg.className='ck-legend';
+    leg.innerHTML='<div class="ck-scale"></div><div class="ck-scale-l"><span>狙い目</span><span>攻めてOK</span><span>注意</span><span>避ける</span></div><p class="ck-act" style="margin:6px 0 0">上から順に「狙うべき相手」→「避けたい相手」。点の位置が右ほど、あなたの部隊にとって手ごわい相手です。</p>';
+    out.appendChild(leg);
+    [1,2,3,4].forEach(function(l){
       var g=res.filter(function(r){return r.lv===l});
-      var box=document.createElement('div');box.className='ck-group';
-      box.innerHTML='<h3>'+LV[l][0]+'<span class="n">'+g.length+'件</span></h3><p class="ck-act">'+LV[l][1]+'</p>';
+      var box=document.createElement('div');box.className='ck-group';box.dataset.l=l;
+      box.innerHTML='<h3><span class="ck-chip">'+LV[l][0]+'</span><span class="n">'+g.length+'件</span></h3><p class="ck-act">'+LV[l][1]+'</p>';
       var list=document.createElement('div');list.className='ck-list';
       if(!g.length)list.innerHTML='<p class="ck-empty">該当なし</p>';
-      g.sort(function(a,b){return a.d[1]-b.d[1]}).forEach(function(r){
+      g.sort(function(a,b){return a.sc-b.sc||a.d[1]-b.d[1]}).forEach(function(r){
         var it=document.createElement('div');it.className='ck-item l'+l;
         var me=r.R.length?r.R.map(function(x){
           return '<li class="'+x.k+'"><span class="mk">'+(x.k==='bad'?'不利':'有利')+'</span>'+x.t+'<span class="src">'+x.s+'</span></li>'}).join('')
           :'<li class="none"><span class="mk">―</span>'+BASE[r.d[4]]+'</li>';
         it.innerHTML='<div class="hd"><b>'+r.d[0]+'</b><span>土地'+r.d[1]+'・'+r.d[2]+'</span></div>'+
+          '<div class="ck-meter" role="img" aria-label="手ごわさ '+Math.round(r.sc)+'／100"><i style="left:'+r.sc+'%"></i></div>'+
           '<dl class="ck-dl"><dt>相手の戦い方</dt><dd>'+r.d[5]+'</dd>'+
           '<dt>あなたの部隊だと</dt><dd><ul>'+me+'</ul></dd></dl>'+repHtml(r.d[0]);
         list.appendChild(it);
